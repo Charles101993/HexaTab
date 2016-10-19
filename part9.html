@@ -1,0 +1,68 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+    <title>Phaser - Making your first game, part 9</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+function preload() {
+
+    game.load.image('sky', 'assets/sky.png');
+    game.load.image('star', 'assets/shinyball.png');
+    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+
+}
+
+var player;
+
+function create() {
+
+    game.add.sprite(0, 0, 'sky');
+
+    // The player and its settings
+    player = game.add.sprite(32, game.world.height - 150, 'star');
+
+    //  We need to enable physics on the player
+    game.physics.arcade.enable(player);
+
+    flake = game.add.sprite(32, 32, 'star');
+    
+}
+
+function update() {
+
+    //  only move when you click
+    if (game.input.mousePointer.isDown)
+    {
+        //  400 is the speed it will move towards the mouse
+        game.physics.arcade.moveToPointer(player, 1000);
+
+        //  if it's overlapping the mouse, don't move any more
+        if (Phaser.Rectangle.contains(player.body, game.input.x, game.input.y))
+        {
+            player.body.velocity.setTo(0, 0);
+        }
+    }
+    else
+    {
+        player.body.velocity.setTo(0, 0);
+    }
+
+}
+
+
+</script>
+
+</body>
+</html>
