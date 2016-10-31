@@ -18,14 +18,22 @@
 	</script>
 </head>
 
+
+
+<form>
+<input id="textbox" type="text" name="URL">
+</form>
+<button id="button" onclick="duplicate()">clone</button>
+
 <body style="cursor: auto;">
 
-<div id="draggable" class="ui-widget-content ui-draggable ui-draggable-handle" style="position: relative; left: 673px; top: 280px;">
-	<img src= 'assets/shinyball.png'/ onclick = 'myfunc()'/>
+<div id="draggable" class="ui-widget-content ui-draggable ui-draggable-handle" style="position: absolute; left: 673px; top: 280px;">
+	<img src= 'assets/shinyball.png' onclick = 'myfunc(myiFrame)'/>
+	<div>
 	<iframe id="myiFrame" src="http://w3schools.com"></iframe>
+	</div>
 </div>
 
-<div id="draggable" class="ui-widget-content ui-draggable ui-draggable-handle" style="position: relative; left: 673px; top: 280px;">
 		
 		
 </div>
@@ -36,12 +44,40 @@
 </body>
 <script>
 var count = 0;
-function myfunc(){
+function myfunc(id){
 	count += 1;
 	if(count % 2 == 1){
-		$('#myiFrame').hide();
+		$(id).hide();
 	}
-	else $('#myiFrame').show();
+	else $(id).show();
+}
+
+document.getElementById('button').onclick = duplicate;
+var i = 0;
+var original = document.getElementById('draggable');
+
+function duplicate() {
+    var clone = original.cloneNode(true); // "deep" clone
+    clone.id = "draggable" + ++i; // there can only be one element with an ID
+    original.parentNode.appendChild(clone);  
+	
+	var newURL = document.getElementById('textbox').value;
+	//newURL = 'http://' + newURL;
+	
+	var inner = "<img src= 'assets/shinyball.png' onclick = 'myfunc(" + "myiFrame" + i 
+				+ ")'/> <div> <iframe id=" + "myiFrame" + i +  " src='http://w3schools.com'></iframe> </div>";
+	document.getElementById(clone.id).innerHTML = inner;
+	window.console.log(inner);
+	
+	window.console.log(document.getElementById("myiFrame" + i));
+	window.console.log(document.getElementById(clone.id).innerHTML);
+	document.getElementById("myiFrame" + i).src = newURL;
+	
+	$(function() {
+		$("#".concat(clone.id)).draggable();
+		
+	} );
+
 }
 </script>
 </html>
