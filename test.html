@@ -1,4 +1,6 @@
 <html lang="en"><head>
+	<script src = 'http://code.jquery.com/jquery-1.11.0.min.js'/>
+	<script type="text/javascript"/>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>jQuery UI Draggable - Default functionality</title>
@@ -15,13 +17,31 @@
 	} );
 	</script>
 </head>
+
 <body style="cursor: auto;">
 
 <div id="draggable" class="ui-widget-content ui-draggable ui-draggable-handle" style="position: relative; left: 673px; top: 280px;">
-	<p>Drag me around</p>
+	<img src= 'assets/shinyball.png'/ onclick = 'myfunc()'/>
+	<iframe id="myiFrame" src="http://w3schools.com"></iframe>
+</div>
+
+<div id="draggable" class="ui-widget-content ui-draggable ui-draggable-handle" style="position: relative; left: 673px; top: 280px;">
+		
+		
 </div>
 
 
 
 
-</body></html>
+</body>
+<script>
+var count = 0;
+function myfunc(){
+	count += 1;
+	if(count % 2 == 1){
+		$('#myiFrame').hide();
+	}
+	else $('#myiFrame').show();
+}
+</script>
+</html>
