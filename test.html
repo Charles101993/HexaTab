@@ -1,16 +1,44 @@
 <html lang="en"><head>
-	<script src = 'http://code.jquery.com/jquery-1.11.0.min.js'/>
-	<script type="text/javascript"/>
+	<script src = 'http://code.jquery.com/jquery-1.12.1.min.js'/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>jQuery UI Draggable - Default functionality</title>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">
+
+	
 	<style>
 	
 	#draggable { width: 150px; height: 150px; padding: 0.5em; }
 	
+	#resizable { width: 310px; height: 160px; padding: 0.5em; }
+
+	html, body, #container { height: 100%; }
+	#container { height: 100%; }
+
+	.ui-widget-content {
+		border: 1px solid #ffffff;
+		background: #ffffff;
+		color: #222222;
+	}
+	
+	#content { padding-bottom: 3em; }
+	
+	#mask {
+		position:absolute;
+		top:0;
+		width:0;
+		margin:0;
+		padding:0;
+		width:100%;
+		height:100%;
+		display:none;
+	}
+	
 	</style>
+	
 	<style>
 	.show { display: block; }
 	</style>
@@ -18,8 +46,22 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script>
 	$( function() {
-		$( "#draggable" ).draggable();
+		$( "#draggable" ).draggable({ iframeFix: true });
 	} );
+	</script>
+	
+	<script>
+	$(function(){
+		$("#resizable").resizable({
+			start: function(event, ui) { 
+			   $("#mask").css("display","block");
+			},
+			stop: function(event, ui) {
+			   $("#mask").css("display","none");
+			}
+		});
+	});
+
 	</script>
 </head>
 
@@ -66,17 +108,12 @@
 <body style="cursor: auto;">
 
 <div id="draggable" class="ui-widget-content ui-draggable ui-draggable-handle" style="position: absolute; left: 673px; top: 280px;">
-	<img src= 'assets/shinyball.png' onclick = 'myfunc(myiFrame)'/>
-	<div>
-	<iframe id="myiFrame" src="http://w3schools.com"></iframe>
+	<img src= 'assets/shinyball.png' onclick = 'myfunc(resizable)'/>
+	<div id="resizable" >
+		<iframe id="myiFrame" src="http://example.com" style="width:100%; height:100%	;"></iframe>
+		<div id="mask"></div>
 	</div>
 </div>
-
-		
-		
-</div>
-
-
 
 
 </body>
@@ -89,9 +126,11 @@ function myfunc(id){
 	}
 	else $(id).show();
 }
+
 function mykunc() {
     document.getElementById("menuDrop").classList.toggle("show");
 }
+
 document.getElementById('button').onclick = duplicate;
 var i = 0;
 var original = document.getElementById('draggable');
@@ -102,43 +141,62 @@ function duplicate() {
     original.parentNode.appendChild(clone);  
 	
 	var newURL = document.getElementById('textbox').value;
-	//newURL = 'http://' + newURL;
+	if(newURL.substring(0,4) != 'http'){
+		newURL = 'http://' + newURL;
+	}
 	
-	var inner = "<img src= 'assets/shinyball.png' onclick = 'myfunc(" + "myiFrame" + i 
-				+ ")'/> <div> <iframe id=" + "myiFrame" + i +  " src='http://w3schools.com'></iframe> </div>";
+	var inner = "<img src= 'assets/shinyball.png' onclick = 'myfunc(" + "resizable" + i 
+				+ ")'/> <div id='resizable" + i + "' style='width: 310px; height: 160px; padding: 0.5em;'> <iframe id='" 
+				+ "myiFrame" + i
+				+  "' src='http://example.com' style='width:100%; height:100%;'></iframe> <div id='mask" + i
+				+ "'></div> </div>";
 	document.getElementById(clone.id).innerHTML = inner;
-	window.console.log(inner);
 	
+	window.console.log(inner);
 	window.console.log(document.getElementById("myiFrame" + i));
 	window.console.log(document.getElementById(clone.id).innerHTML);
+	
 	document.getElementById("myiFrame" + i).src = newURL;
 	
 	$(function() {
-		$("#".concat(clone.id)).draggable();
-		
+		$("#".concat(clone.id)).draggable({iframeFix: true});
 	} );
 	
+	$(function(){
+		$("#resizable".concat(i)).resizable({
+			start: function(event, ui) { 
+			   $("#mask".concat(i)).css("display","block");
+			},
+			stop: function(event, ui) {
+			   $("#mask".concat(i)).css("display","none");
+			}
+		});
+	});
+	
 	var iframe = document.getElementsByTagName('iframe')[0];
-var url = iframe.src;
-var getData = function (data) {
-    if (data && data.query && data.query.results && data.query.results.resources && data.query.results.resources.content && data.query.results.resources.status == 200) loadHTML(data.query.results.resources.content);
-    else if (data && data.error && data.error.description) loadHTML(data.error.description);
-    else loadHTML('Error: Cannot load ' + url);
-};
-var loadURL = function (src) {
-    url = src;
-    var script = document.createElement('script');
-    script.src = 'http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20data.headers%20where%20url%3D%22' + encodeURIComponent(url) + '%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=getData';
-    document.body.appendChild(script);
-};
-var loadHTML = function (html) {
-    iframe.src = 'about:blank';
-    iframe.contentWindow.document.open();
-    iframe.contentWindow.document.write(html.replace(/<head>/i, '<head><base href="' + url + '"><scr' + 'ipt>document.addEventListener("click", function(e) { if(e.target && e.target.nodeName == "A") { e.preventDefault(); parent.loadURL(e.target.href); } });</scr' + 'ipt>'));
-    iframe.contentWindow.document.close();
-}
+	var url = iframe.src;
 
-loadURL(iframe.src);
+	var getData = function (data) {
+		if (data && data.query && data.query.results && data.query.results.resources && data.query.results.resources.content && data.query.results.resources.status == 200) loadHTML(data.query.results.resources.content);
+		else if (data && data.error && data.error.description) loadHTML(data.error.description);
+		else loadHTML('Error: Cannot load ' + url);
+	};
+
+	var loadURL = function (src) {
+		url = src;
+		var script = document.createElement('script');
+		script.src = 'http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20data.headers%20where%20url%3D%22' + encodeURIComponent(url) + '%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=getData';
+		document.body.appendChild(script);
+	};
+
+	var loadHTML = function (html) {
+		iframe.src = 'about:blank';
+		iframe.contentWindow.document.open();
+		iframe.contentWindow.document.write(html.replace(/<head>/i, '<head><base href="' + url + '"><scr' + 'ipt>document.addEventListener("click", function(e) { if(e.target && e.target.nodeName == "A") { e.preventDefault(); parent.loadURL(e.target.href); } });</scr' + 'ipt>'));
+		iframe.contentWindow.document.close();
+	}
+
+	loadURL(iframe.src);
 
 }
 </script>
