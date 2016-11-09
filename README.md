@@ -15,11 +15,6 @@ Put https://github.tamu.edu/ for enterprise
 Continue cloning and select where you want to put the clone  
 Now you can directly edit the files and use the app to commit them rather than using command prompt things  
 
-Dragging stuff
-http://jqueryui.com/resources/demos/draggable/default.html
-
-
-
 
 
 ###Known Bugs:
