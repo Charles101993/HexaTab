@@ -17,3 +17,10 @@ Now you can directly edit the files and use the app to commit them rather than u
 
 Dragging stuff
 http://jqueryui.com/resources/demos/draggable/default.html
+
+
+
+
+
+###Known Bugs:
+Resize doesn't work on clones when the mouse moves into the iframe
