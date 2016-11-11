@@ -1,16 +1,44 @@
 <html lang="en"><head>
-	<script src = 'http://code.jquery.com/jquery-1.11.0.min.js'/>
-	<script type="text/javascript"/>
+	<script src = 'http://code.jquery.com/jquery-1.12.1.min.js'/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>jQuery UI Draggable - Default functionality</title>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">
+
+	
 	<style>
 	
 	#draggable { width: 150px; height: 150px; padding: 0.5em; }
 	
+	#resizable { width: 310px; height: 160px; padding: 0.5em; }
+
+	html, body, #container { height: 100%; }
+	#container { height: 100%; }
+
+	.ui-widget-content {
+		border: 1px solid #ffffff;
+		background: #ffffff;
+		color: #222222;
+	}
+	
+	#content { padding-bottom: 3em; }
+	
+	#mask {
+		position:absolute;
+		top:0;
+		width:0;
+		margin:0;
+		padding:0;
+		width:100%;
+		height:100%;
+		display:none;
+	}
+	
 	</style>
+	
 	<style>
 	.show { display: block; }
 	</style>
@@ -18,13 +46,27 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script>
 	$( function() {
-		$( "#draggable" ).draggable();
+		$( "#draggable" ).draggable({ iframeFix: true });
 	} );
+	</script>
+	
+	<script>
+	$(function(){
+		$("#resizable").resizable({
+			start: function(event, ui) { 
+			   $("#mask").css("display","block");
+			},
+			stop: function(event, ui) {
+			   $("#mask").css("display","none");
+			}
+		});
+	});
+
 	</script>
 </head>
 
 <div id = "menuButton" style="position: absolute; left: 10px; top: 10px;"> 
-    <img src='assets/menu.png' width="50" height="50" onclick = "mykunc()"/>
+    <img src='assets/menu.png' width="50" height="50" onclick = "mykunc"/>
 	<div id="menuDrop" style="display: none;">
 		<div id = "signInButton" > 
 			<img src='assets/signIn.png' />
@@ -35,13 +77,14 @@
 	</div>
 </div>
 
-<div id = "button" style="position: absolute; left: 100px; top: 10px;"> 
-    <img src='assets/newTab.png' width="50" height="50" onclick="duplicate();" />
-	<div id="buttontext" onclick="1;">
+<div id = "newTab" style="position: absolute; left: 100px; top: 10px;" onclick ='duplicate'> 
+    <img src='assets/newTab.png' width="50" height="50"/>	
+</div>
+
+<div id="buttontext" style="position: absolute; left: 100px; top:60px;">
 		<form>
 		<input id="textbox" type="text" name="URL">
 		</form>
-	</div>
 </div>
 
 <div id = "saveButton" style="position: absolute; left: 150px; top: 10px;"> 
@@ -66,17 +109,12 @@
 <body style="cursor: auto;">
 
 <div id="draggable" class="ui-widget-content ui-draggable ui-draggable-handle" style="position: absolute; left: 673px; top: 280px;">
-	<img src= 'assets/shinyball.png' onclick = 'myfunc(myiFrame)'/>
-	<div>
-	<iframe id="myiFrame" src="http://w3schools.com"></iframe>
+	<img src= 'assets/shinyball.png' onclick = 'myfunc(resizable)'/>
+	<div id="resizable" >
+		<iframe id="myiFrame" src="http://example.com" style="width:100%; height:100%	;"></iframe>
+		<div id="mask"></div>
 	</div>
 </div>
-
-		
-		
-</div>
-
-
 
 
 </body>
@@ -89,10 +127,12 @@ function myfunc(id){
 	}
 	else $(id).show();
 }
+
 function mykunc() {
     document.getElementById("menuDrop").classList.toggle("show");
 }
-document.getElementById('button').onclick = duplicate;
+
+document.getElementById('newTab').onclick = duplicate;
 var i = 0;
 var original = document.getElementById('draggable');
 
@@ -102,23 +142,38 @@ function duplicate() {
     original.parentNode.appendChild(clone);  
 	
 	var newURL = document.getElementById('textbox').value;
-	//newURL = 'http://' + newURL;
+	if(newURL.substring(0,4) != 'http'){
+		newURL = 'http://' + newURL;
+	}
 	
-	var inner = "<img src= 'assets/shinyball.png' onclick = 'myfunc(" + "myiFrame" + i 
-				+ ")'/> <div> <iframe id=" + "myiFrame" + i +  " src='http://w3schools.com'></iframe> </div>";
+	var inner = "<img src= 'assets/shinyball.png' onclick = 'myfunc(" + "resizable" + i 
+				+ ")'/> <div id='resizable" + i + "' style='width: 310px; height: 160px; padding: 0.5em;'> <iframe id='" 
+				+ "myiFrame" + i
+				+  "' src='http://example.com' style='width:100%; height:100%;'></iframe> <div id='mask" + i
+				+ "'></div> </div>";
 	document.getElementById(clone.id).innerHTML = inner;
-	window.console.log(inner);
 	
+	window.console.log(inner);
 	window.console.log(document.getElementById("myiFrame" + i));
 	window.console.log(document.getElementById(clone.id).innerHTML);
+	
 	document.getElementById("myiFrame" + i).src = newURL;
 	
 	$(function() {
-		$("#".concat(clone.id)).draggable();
-		
+		$("#".concat(clone.id)).draggable({iframeFix: true});
 	} );
 	
 
+	$(function(){
+		$("#resizable".concat(i)).resizable({
+			start: function(event, ui) { 
+			   $("#mask".concat(i)).css("display","block");
+			},
+			stop: function(event, ui) {
+			   $("#mask".concat(i)).css("display","none");
+			}
+		});
+	});
 
 }
 </script>
