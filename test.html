@@ -48,6 +48,13 @@
 	<script>
 	$( function() {
 		$( "#draggable" ).draggable({ iframeFix: true });
+		$("#draggable").on('click', function(){
+			window.console.log($(this).attr("id"));
+			var element = document.getElementById($(this).attr("id"));
+			if(testDelete == true) {
+				element.parentNode.removeChild(element);
+			}
+		});
 	} );
 	</script>
 	
@@ -59,6 +66,13 @@
 			},
 			stop: function(event, ui) {
 			   $("#mask").css("display","none");
+			}
+		});
+		$("#resizable").on('click', function(){
+			window.console.log($(this).attr("id"));
+			var element = document.getElementById($(this).attr("id"));
+			if(testDelete == true) {
+				element.parentNode.removeChild(element);
 			}
 		});
 	});
@@ -105,7 +119,7 @@
 </div>
 
 <div id = "editModeButton" style="position: absolute; left: 275px; top: 10px;"> 
-    <img src='assets/editMode.png' width="50" height="50" onclick = "edDrop(editDrop)"/>
+    <img src='assets/editMode.png' width="50" height="50" onclick = "edDrop(editDrop);"/>
 	<div id="editDrop" style="display: none;">
 		<div id = "textButton" > 
 			<img src='assets/newText.png' width="50" height="50"/>
@@ -120,7 +134,7 @@
 </div>
 
 <div id = "deleteButton" style="position: absolute; left: 400px; top: 10px;"> 
-    <img src='assets/delete.png' width="50" height="50"/>
+    <img src='assets/delete.png' width="50" height="50" onclick = "toggleDelete();"/>
 </div>
 
 <body style="cursor: auto;">
@@ -146,8 +160,16 @@
 
 </body>
 <script>
-
 var testDelete = false;
+function toggleDelete() {
+	if(testDelete == false) {
+		testDelete = true;
+	}
+	else {
+		testDelete = false;
+	}
+}
+
 
 var dis = 0;
 var sid = 0;
@@ -209,6 +231,13 @@ function duplicate() {
 	
 	$(function() {
 		$("#".concat(clone.id)).draggable({iframeFix: true});
+		$("#".concat(clone.id)).on('click', function(){
+			window.console.log($(this).attr("id"));
+			var element = document.getElementById($(this).attr("id"));
+			if(testDelete == true) {
+				element.parentNode.removeChild(element);
+			}
+		});
 	} );
 	
 
@@ -221,6 +250,7 @@ function duplicate() {
 			   $("#mask".concat(i)).css("display","none");
 			}
 		});
+		
 	});
 
 }
@@ -248,7 +278,9 @@ function makeNote() {
 		$("#".concat(newNote.id)).on('click', function(){
 			window.console.log($(this).attr("id"));
 			var element = document.getElementById($(this).attr("id"));
-			element.parentNode.removeChild(element);
+			if(testDelete == true) {
+				element.parentNode.removeChild(element);
+			}
 		});
 	} );
 }
