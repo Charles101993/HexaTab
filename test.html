@@ -108,15 +108,19 @@
     <img src='assets/editMode.png' width="50" height="50" onclick = "edDrop(editDrop)"/>
 	<div id="editDrop" style="display: none;">
 		<div id = "textButton" > 
-			<img src='assets/newText.png' />
+			<img src='assets/newText.png' width="50" height="50"/>
 		</div>
 		<div id = "editTextButton" > 
-			<img src='assets/editText.png' />
+			<img src='assets/editText.png' width="50" height="50"/>
 		</div>
 		<div id = "newListButton" > 
-			<img src='assets/newList.png' />
+			<img src='assets/newList.png' width="50" height="50"/>
 		</div>
 	</div>
+</div>
+
+<div id = "deleteButton" style="position: absolute; left: 400px; top: 10px;"> 
+    <img src='assets/delete.png' width="50" height="50"/>
 </div>
 
 <body style="cursor: auto;">
@@ -172,7 +176,9 @@ function myfunc(id){
 	else $(id).show();
 }
 
-//document.getElementById('newTab').onclick = duplicate;
+
+document.getElementById('newTab').onclick = duplicate;
+
 document.getElementById('newListButton').onclick = makeNote;
 
 var i = 0;
