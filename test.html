@@ -66,13 +66,20 @@
 		$( "#draggable" ).draggable();
 		$("#postIt").draggable({
 			handle:  '.topBar',
-		}); 
+		});
+		$('#postIt').on('click', function(){
+			window.console.log($(this).attr("id"));
+			var element = document.getElementById($(this).attr("id"));
+			if(testDelete) {
+				element.parentNode.removeChild(element);
+			}
+		});
 	} );
 	</script>
 </head>
 
 <div id = "menuButton" style="position: absolute; left: 10px; top: 10px;"> 
-    <img src='assets/menu.png' width="50" height="50" onclick = "disDrop(menuDrop)"/>
+    <img src='assets/menu.png' width="50" height="50" onclick = "disDrop(menuDrop);"/>
 	<div id="menuDrop" style="display: none;">
 		<div id = "signInButton" > 
 			<img src='assets/signIn.png' />
@@ -83,7 +90,7 @@
 	</div>
 </div>
 
-<div id = "newTab" style="position: absolute; left: 100px; top: 10px;" onclick ='duplicate'> 
+<div id = "newTab" style="position: absolute; left: 100px; top: 10px;" onclick ="duplicate();useID();"> 
     <img src='assets/newTab.png' width="50" height="50"/>	
 </div>
 
@@ -135,6 +142,9 @@
 
 </body>
 <script>
+
+var testDelete = false;
+
 var dis = 0;
 var sid = 0;
 function disDrop(id){
@@ -162,8 +172,8 @@ function myfunc(id){
 	else $(id).show();
 }
 
-document.getElementById('newTab').onclick = duplicate;
-document.getElementById('editModeButton').onclick = makeNote;
+//document.getElementById('newTab').onclick = duplicate;
+document.getElementById('newListButton').onclick = makeNote;
 
 var i = 0;
 var original = document.getElementById('draggable');
@@ -185,9 +195,9 @@ function duplicate() {
 				+ "'></div> </div>";
 	document.getElementById(clone.id).innerHTML = inner;
 	
-	window.console.log(inner);
-	window.console.log(document.getElementById("myiFrame" + i));
-	window.console.log(document.getElementById(clone.id).innerHTML);
+//	window.console.log(inner);
+//	window.console.log(document.getElementById("myiFrame" + i));
+//	window.console.log(document.getElementById(clone.id).innerHTML);
 	
 	document.getElementById("myiFrame" + i).src = newURL;
 	
@@ -229,7 +239,18 @@ function makeNote() {
 		$("#".concat(newNote.id)).draggable({
 			handle:  '.topBar',
 		});
+		$("#".concat(newNote.id)).on('click', function(){
+			window.console.log($(this).attr("id"));
+			var element = document.getElementById($(this).attr("id"));
+			element.parentNode.removeChild(element);
+		});
 	} );
+}
+
+function useID(e) {   
+//    alert(e.id);
+	window.console.log("AHHH");
+	window.console.log(e.id);
 }
 </script>
 </html>
