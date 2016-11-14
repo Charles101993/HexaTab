@@ -8,6 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>jQuery UI Draggable - Default functionality</title>
 
+	<link rel="stylesheet" href="css/style.css">
 	
 	<style>
 	
@@ -61,7 +62,12 @@
 			}
 		});
 	});
-
+	$( function() {
+		$( "#draggable" ).draggable();
+		$("#postIt").draggable({
+			handle:  '.topBar',
+		}); 
+	} );
 	</script>
 </head>
 
@@ -117,6 +123,16 @@
 </div>
 
 
+<div id="postIt" style="position:absolute; left: 300px; top: 300px;">
+
+  <div class=topBar></div>
+  <div class=noteForm>
+    <div contenteditable class=textAria>
+      Hello, <b>Edit Me First</b> Then Drag & Drop me.
+    </div>
+  </div>
+</div>
+
 </body>
 <script>
 var count = 0;
@@ -133,6 +149,8 @@ function mykunc() {
 }
 
 document.getElementById('newTab').onclick = duplicate;
+document.getElementById('editModeButton').onclick = makeNote;
+
 var i = 0;
 var original = document.getElementById('draggable');
 
@@ -175,6 +193,29 @@ function duplicate() {
 		});
 	});
 
+}
+
+var initNote = document.getElementById('postIt');
+var noteNum = 0;
+
+function makeNote() {
+	var newNote = initNote.cloneNode(true);
+	newNote.id = "postIt" + ++noteNum;
+	
+	initNote.parentNode.appendChild(newNote);
+	
+	var inner = "<div class=topBar></div> <div class=noteForm> <div contenteditable class=textAria>  </div> </div>";
+	document.getElementById(newNote.id).innerHTML = inner;
+	window.console.log(inner);
+	window.console.log(newNote.style.left);
+	document.getElementById(newNote.id).style.left = "200px";
+	document.getElementById(newNote.id).style.top = "200px";
+	
+  $(function() {
+		$("#".concat(newNote.id)).draggable({
+			handle:  '.topBar',
+		});
+	} );
 }
 </script>
 </html>

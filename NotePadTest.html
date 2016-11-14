@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Drag & Drop Post-It Note</title>
+  
+  
+  <link rel='stylesheet prefetch' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+	<script src = 'http://code.jquery.com/jquery-1.11.0.min.js'/>
+	<script type="text/javascript"/>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>jQuery UI Draggable - Default functionality</title>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<link rel="stylesheet" href="css/style.css">
+	<style>
+	#draggable { width: 150px; height: 150px; padding: 0.5em; }
+	</style>
+	
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+	$( function() {
+		$( "#draggable" ).draggable();
+		$("#postIt").draggable({
+			handle:  '.topBar',
+		}); 
+	} );
+	</script>
+  
+</head>
+
+<form>
+<input id="textbox" type="text" name="URL">
+</form>
+<button id="button" onclick="duplicate()">clone</button>
+<button id="makeNote" onclick="makeNote()">new Note</button>
+
+<body>
+  <div id="postIt" style="position:absolute;">
+
+  <div class=topBar></div>
+  <div class=noteForm>
+    <div contenteditable class=textAria>
+      Hello, <b>Edit Me First</b> Then Drag & Drop me.
+    </div>
+  </div>
+</div>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+
+    <script src="js/index.js"></script>
+
+	
+	<div id="draggable" class="ui-widget-content ui-draggable ui-draggable-handle" style="position: absolute; left: 673px; top: 280px;">
+	<img src= 'assets/shinyball.png' onclick = 'myfunc(myiFrame)'/>
+	<div>
+	<iframe id="myiFrame" src="http://w3schools.com"></iframe>
+	</div>
+</div>
+
+
+
+</body>
+
+<script>
+var count = 0;
+function myfunc(id){
+	count += 1;
+	if(count % 2 == 1){
+		$(id).hide();
+	}
+	else $(id).show();
+}
+
+document.getElementById('button').onclick = duplicate;
+var i = 0;
+var original = document.getElementById('draggable');
+
+function duplicate() {
+    var clone = original.cloneNode(true); // "deep" clone
+    clone.id = "draggable" + ++i; // there can only be one element with an ID
+    original.parentNode.appendChild(clone);  
+	
+	var newURL = document.getElementById('textbox').value;
+	//newURL = 'http://' + newURL;
+	
+	var inner = "<img src= 'assets/shinyball.png' onclick = 'myfunc(" + "myiFrame" + i 
+				+ ")'/> <div> <iframe id=" + "myiFrame" + i +  " src='http://w3schools.com'></iframe> </div>";
+	document.getElementById(clone.id).innerHTML = inner;
+	window.console.log(inner);
+	
+	window.console.log(document.getElementById("myiFrame" + i));
+	window.console.log(document.getElementById(clone.id).innerHTML);
+	document.getElementById("myiFrame" + i).src = newURL;
+	
+	$(function() {
+		$("#".concat(clone.id)).draggable();
+		
+	} );
+}
+
+var initNote = document.getElementById('postIt');
+var noteNum = 0;
+
+function makeNote() {
+	var newNote = initNote.cloneNode(true);
+	newNote.id = "postIt" + ++noteNum;
+	
+	initNote.parentNode.appendChild(newNote);
+	
+	var inner = "<div class=topBar></div> <div class=noteForm> <div contenteditable class=textAria>  </div> </div>";
+	document.getElementById(newNote.id).innerHTML = inner;
+	window.console.log(inner);
+	window.console.log(newNote.style.left);
+	document.getElementById(newNote.id).style.left = "200px";
+	document.getElementById(newNote.id).style.top = "200px";
+	
+  $(function() {
+		$("#".concat(newNote.id)).draggable({
+			handle:  '.topBar',
+		});
+	} );
+}
+
+
+
+</script>
+</html>
