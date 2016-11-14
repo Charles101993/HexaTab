@@ -72,7 +72,7 @@
 </head>
 
 <div id = "menuButton" style="position: absolute; left: 10px; top: 10px;"> 
-    <img src='assets/menu.png' width="50" height="50" onclick = "mykunc"/>
+    <img src='assets/menu.png' width="50" height="50" onclick = "disDrop(menuDrop)"/>
 	<div id="menuDrop" style="display: none;">
 		<div id = "signInButton" > 
 			<img src='assets/signIn.png' />
@@ -98,7 +98,7 @@
 </div>
 
 <div id = "editModeButton" style="position: absolute; left: 275px; top: 10px;"> 
-    <img src='assets/editMode.png' width="50" height="50"/>
+    <img src='assets/editMode.png' width="50" height="50" onclick = "edDrop(editDrop)"/>
 	<div id="editDrop" style="display: none;">
 		<div id = "textButton" > 
 			<img src='assets/newText.png' />
@@ -135,6 +135,24 @@
 
 </body>
 <script>
+var dis = 0;
+var sid = 0;
+function disDrop(id){
+	dis += 1;
+	if(dis % 2 == 1){
+		$(id).show();
+	}
+	else $(id).hide();
+}
+function edDrop(id){
+	sid += 1;
+	if(sid % 2 == 1){
+		$(id).show();
+	}
+	else $(id).hide();
+}
+</script>
+<script>
 var count = 0;
 function myfunc(id){
 	count += 1;
@@ -142,10 +160,6 @@ function myfunc(id){
 		$(id).hide();
 	}
 	else $(id).show();
-}
-
-function mykunc() {
-    document.getElementById("menuDrop").classList.toggle("show");
 }
 
 document.getElementById('newTab').onclick = duplicate;
