@@ -164,7 +164,6 @@
 
 
 <div id="postIt" style="position:absolute; left: 300px; top: 300px;">
-
   <div class=topBar></div>
   <div class=noteForm>
     <div contenteditable class=textAria>
@@ -253,7 +252,7 @@ function duplicate() {
 	
 	$(function() {
 		$("#".concat(clone.id)).draggable({iframeFix: true});
-		$("#".concat(clone.id)).on('click', function(){
+		$("#".concat(clone.id	)).on('click', function(){
 			window.console.log($(this).attr("id"));
 			var element = document.getElementById($(this).attr("id"));
 			if(testDelete == true) {
@@ -272,7 +271,6 @@ function duplicate() {
 			   $("#mask".concat(i)).css("display","none");
 			}
 		});
-		
 	});
 
 }
@@ -281,23 +279,25 @@ var initNote = document.getElementById('postIt');
 var noteNum = 0;
 
 function makeNote() {
-	var newNote = initNote.cloneNode(true);
-	newNote.id = "postIt" + ++noteNum;
-	
-	initNote.parentNode.appendChild(newNote);
-	
-	var inner = "<div class=topBar></div> <div class=noteForm> <div contenteditable class=textAria>  </div> </div>";
-	document.getElementById(newNote.id).innerHTML = inner;
-	window.console.log(inner);
-	window.console.log(newNote.style.left);
-	document.getElementById(newNote.id).style.left = "200px";
-	document.getElementById(newNote.id).style.top = "200px";
-	
+	var newNote = document.createElement('div');
+	var newNoteID = "postIt" + ++noteNum;
+//	newNote.id = newNoteID;
+//	initNote.parentNode.appendChild(newNote);
+//	window.console.log(document.getElementById(initNote.id).outerHTML);
+//	window.console.log("INNER^OUTERv");
+//	window.console.log(document.getElementById(initNote.id).innerHTML);
+	var inner = "<div id= '" + newNoteID+ "' style='position:absolute; left: 300px; top: 300px;'> <div class=topBar></div> <div class=noteForm> <div contenteditable class=textAria>  </div> </div> </div>";
+	newNote.innerHTML = inner;
+//	window.console.log(inner);
+//	window.console.log(newNote.style.left);
+	newNote.style.left = "200px";
+	newNote.style.top = "200px";
+	document.body.appendChild(newNote);
   $(function() {
-		$("#".concat(newNote.id)).draggable({
+		$("#".concat(newNoteID)).draggable({
 			handle:  '.topBar',
 		});
-		$("#".concat(newNote.id)).on('click', function(){
+		$("#".concat(newNoteID)).on('click', function(){
 			window.console.log($(this).attr("id"));
 			var element = document.getElementById($(this).attr("id"));
 			if(testDelete == true) {
@@ -332,6 +332,17 @@ function makeText() {
 			}
 		});
 	} );
+	
+	$(function(){
+		$("#".concat(newNote.id)).resizable({
+			start: function(event, ui) { 
+			   $("#mask".concat(i)).css("display","block");
+			},
+			stop: function(event, ui) {
+			   $("#mask".concat(i)).css("display","none");
+			}
+		});
+	});
 }
 
 function useID(e) {   
