@@ -105,14 +105,6 @@
 			window.console.log($(this).attr("id"));
 			var element = document.getElementById($(this).attr("id"));
 			if(testDelete) {
-				window.console.log($(this).attr("id"));
-				if($(this).attr("id") == "textMake")
-				{
-					$($(this).attr("id")).hide();
-					element.parentNode.hide();
-					window.console.log("hiding");
-				}
-				else
 					element.parentNode.removeChild(element);
 			}
 		});
@@ -170,8 +162,8 @@
 
 <div id="draggable" class="ui-widget-content ui-draggable ui-draggable-handle" style="position: relative; left: 673px; top: 280px;">
 	<div style = "height: 60px; width: 60px; position: relative; ">
-		<img src= 'assets/hexBorder.png' alt="" style = "height: 75px; width: 75px; position: absolute;" onclick = 'myfunc(resizable)'/>
-		<img src= 'http://google.com/favicon.ico' alt="" style="height: 42px; width: 42px; position:absolute; left:16px; top:5px" onclick = 'myfunc(resizable)'/>
+		<img src= 'assets/hexBorder.png' alt="" style = "height: 75px; width: 75px; position: absolute;" ondblclick = 'myfunc(resizable)'/>
+		<img src= 'http://google.com/favicon.ico' alt="" style="height: 42px; width: 42px; position:absolute; left:16px; top:5px" ondblclick = 'myfunc(resizable)'/>
 		<input type="text" style ="font-size: 10px; width:75px; position:absolute; top:50; background:transparent; border:transparent; color:white; text-align:center" maxlength = "6">
 	</div>
 	<div id="resizable" style="display:none;">
@@ -290,31 +282,41 @@ document.getElementById('newListButton').onclick = makeNote;
 var i = 0;
 var original = document.getElementById('draggable');
 
+
 function duplicate() {
-    var clone = document.createElement('div');
 	var cloneID = "draggable" + ++i;
-   
-	
+	var clone = document.createElement("div");
+	document.body.appendChild(clone);
+	window.console.log(clone.outerHTML);
+//	clone.outerHTML = "<div id='" + cloneID + "' class= 'ui-widget-content ui-draggable ui-draggable-handle' style='position: relative; left: 673px; top: 280px; height: 60px; width: 60px; ; padding: 0.5em; background:transparent; border:transparent;'> </div>"
 	var newURL = document.getElementById('textbox').value;
+	if(newURL == '')
+		newURL = 'example.com';
 	if(newURL.substring(0,4) != 'http'){
 		newURL = 'http://' + newURL;
 	}
+	
+	var test = new Image();
+	test.src = "http://" + newURL.split('/')[2].concat("/favicon.ico");
+	if(!test.complete || test.naturalHeight == 0)
+		test.src = 'http://google.com/favicon.ico';
+	
 	var inner = "<div id='" + cloneID + "' class= 'ui-widget-content ui-draggable ui-draggable-handle' style='position: relative; left: 673px; top: 280px; height: 60px; width: 60px; ; padding: 0.5em; background:transparent; border:transparent;'> "
 				+ "<div style = 'height: 60px; width: 60px; position: relative; '> "
-				+ "<img src= 'assets/hexBorder.png' alt='' style = 'height: 75px; width: 75px; position: absolute;' onclick = 'myfunc(resizable" + i + ")'/>"
-				+ "<img src= '" + "http://" + newURL.split('/')[2].concat("/favicon.ico") + "' alt='' style='height: 42px; width: 42px; position:absolute; left:16px; top:5px;' onclick = 'myfunc(resizable" + i + ")'/></div>"
+				+ "<img src= 'assets/hexBorder.png' alt='' style = 'height: 75px; width: 75px; position: absolute;' ondblclick = 'myfunc(resizable" + i + ")'/>"
+				+ "<img src= '" + test.src + "' alt='' style='height: 42px; width: 42px; position:absolute; left:16px; top:5px;' ondblclick = 'myfunc(resizable" + i + ")'/></div>"
 				+ "<input type='text' style ='font-size: 10px; width:75px; position:absolute; top:57; background:transparent; border:transparent; color:white; text-align:center' maxlength = '6'>"
 				+ " <div id='resizable" + i + "' style='width: 310px; height: 160px; padding: 0.5em; display:none;'> <iframe id='" 
 				+ "myiFrame" + i
 				+  "' src='http://example.com' style='width:100%; height:100%;'></iframe> <div id='mask" + i
 				+ "'></div> </div>"
 				+ "</div>";
-	clone.innerHTML = inner;
+	clone.outerHTML = inner;
 	
 //	window.console.log(inner);
 //	window.console.log(document.getElementById("myiFrame" + i));
 //	window.console.log(document.getElementById(clone.id).innerHTML);
-	document.body.appendChild(clone);
+//	document.body.appendChild(clone);
 	document.getElementById("myiFrame" + i).src = newURL;
 	
 	$(function() {
@@ -349,18 +351,19 @@ var noteNum = 0;
 function makeNote() {
 	var newNote = document.createElement('div');
 	var newNoteID = "postIt" + ++noteNum;
+	document.body.appendChild(newNote);
 //	newNote.id = newNoteID;
 //	initNote.parentNode.appendChild(newNote);
 //	window.console.log(document.getElementById(initNote.id).outerHTML);
 //	window.console.log("INNER^OUTERv");
 //	window.console.log(document.getElementById(initNote.id).innerHTML);
 	var inner = "<div id= '" + newNoteID+ "' style='position:absolute; left: 300px; top: 300px;'> <div class=topBar></div> <div class=noteForm> <div contenteditable class=textAria>  </div> </div> </div>";
-	newNote.innerHTML = inner;
+	newNote.outerHTML = inner;
 //	window.console.log(inner);
 //	window.console.log(newNote.style.left);
 	newNote.style.left = "200px";
 	newNote.style.top = "200px";
-	document.body.appendChild(newNote);
+//	document.body.appendChild(newNote);
   $(function() {
 		$("#".concat(newNoteID)).draggable({
 			handle:  '.topBar',
@@ -378,37 +381,37 @@ function makeNote() {
 var initText = document.getElementById('textMake');
 var textNum = 0;
 function makeText() {
-	var newTex = initText.cloneNode(true);
-	newTex.id = "textMake" + ++textNum;
+	var newTex = document.createElement("div");
+	var newTexID = "textMake" + ++textNum;
+	document.body.append(newTex);
+//	initText.parentNode.appendChild(newTex);
+	//<div id="textMake" style="position:absolute; left: 380px; top: 180px; border-style: solid; border-width: 5px;">
+//  <input id="textMakeBox" type="text" name="tex" style ="font-size: 15px">
+//</div>
 	
-	initText.parentNode.appendChild(newTex);
-	
-	var inner = "<input id=textMakeBox type=text name=tex>";
-	document.getElementById(newTex.id).innerHTML = inner;
-	window.console.log(inner);
-	window.console.log(newTex.style.left);
-	document.getElementById(newTex.id).style.left = "200px";
-	document.getElementById(newTex.id).style.top = "200px";
-	document.getElementById(newTex.id).style.border = "transparent";
+
+	var inner = "<div id='" + newTexID + "' style='position:absolute; left: 380px; top: 180px; border-style: solid; border-width: 5px;' class='ui-draggable ui-draggable-handle'>" 
+				+"<input id=textMakeBox type=text name=tex>";
+				+"</div>";
+	newTex.outerHTML = inner;
+	//document.getElementById(newTex.id).innerHTML = inner;
+//	window.console.log(inner);
+//	window.console.log(newTex.style.left);
+	document.getElementById(newTexID).style.left = "200px";
+	document.getElementById(newTexID).style.top = "200px";
+
 	
   $(function() {
-		$("#".concat(newTex.id)).draggable();
-		$("#".concat(newTex.id)).on('click', function(){
+		$("#".concat(newTexID)).draggable();
+		$("#".concat(newTexID)).on('click', function(){
 			window.console.log($(this).attr("id"));
 			var element = document.getElementById($(this).attr("id"));
 			if(testDelete == true) {
-				window.console.log($(this).attr("id"));
-				if(element.parentNode.id == "textMake")
-				{
-					$(element.parentNode.id).hide();
-					window.console.log("hiding");
-				}
-				else
 					element.parentNode.removeChild(element);
 			}
 		});
 	} );
-	//window.console.log(newTex);
+
 }
 
 function useID(e) {   

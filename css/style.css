@@ -1,7 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Lato);
 
 .topBar {
-  z-index: 1;
   position: absolute;
   width: 200px;
   height: 40px;
