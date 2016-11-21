@@ -105,7 +105,15 @@
 			window.console.log($(this).attr("id"));
 			var element = document.getElementById($(this).attr("id"));
 			if(testDelete) {
-				element.parentNode.removeChild(element);
+				window.console.log($(this).attr("id"));
+				if($(this).attr("id") == "textMake")
+				{
+					$($(this).attr("id")).hide();
+					element.parentNode.hide();
+					window.console.log("hiding");
+				}
+				else
+					element.parentNode.removeChild(element);
 			}
 		});
 	} );
@@ -128,9 +136,9 @@
     <img src='assets/newTab.png' width="50" height="50"/>	
 </div>
 
-<div id="buttontext" style="position: absolute; left: 100px; top:60px;">
+<div id="buttontext" style="position: absolute; left: 100px; top:60px; border: transparent;">
 		<form>
-		<input id="textbox" type="text" name="URL">
+		<input id="textbox" type="text" name="URL" style="border: transparent;">
 		</form>
 </div>
 
@@ -145,7 +153,7 @@
 			<img src='assets/newText.png' width="50" height="50" onclick = "makeText();"/>
 		</div>
 		<div id = "editTextButton" > 
-			<img src='assets/editText.png' width="50" height="50"/>
+			<img src='assets/editText.png' width="50" height="50" onclick = "displayTextBoxes()"/>
 		</div>
 		<div id = "newListButton" > 
 			<img src='assets/newList.png' width="50" height="50"/>
@@ -182,8 +190,8 @@
   </div>
 </div>
 
-<div id="textMake" style="position:absolute; left: 380px; top: 180px; border-style: solid; border-width: 5px;">
-  <input id="textMakeBox" type="text" name="tex" style ="font-size: 15px">
+<div id="textMake" style="position:absolute; left: 380px; top: 180px; border: transparent;">
+  <input id="textMakeBox" type="text" name="tex" style ="font-size: 15px; border: transparent;">
 </div>
 
 </body>
@@ -216,7 +224,47 @@ function edDrop(id){
 	if(sid % 2 == 1){
 		$(id).show();
 	}
-	else $(id).hide();
+	else {
+	$(id).hide();
+	var x = document.getElementsByTagName("INPUT");
+	for (var i=0; i < x.length; i++)
+		if(x[i].type == "text")
+		{
+			if (x[i].parentNode.parentNode.id.substring(0,9) == "draggable" && x[i].style.border != "transparent")
+				x[i].style.border = "transparent";
+			else
+				x[i].parentNode.style.border = "transparent";
+		}
+	}
+}
+var highlightBox = false;
+function displayTextBoxes(){
+	var x = document.getElementsByTagName("INPUT");
+	for (var i=0; i < x.length; i++)
+		if(x[i].type == "text")
+		{
+			if (x[i].parentNode.id.substring(0,8) == "textMake" && x[i].parentNode.style.border == "transparent") //label hightlight
+			{
+				x[i].parentNode.style.border = "7px solid green";
+				highlightBox = true;
+			}
+			else if (x[i].parentNode.parentNode.id.substring(0,9) == "draggable" && x[i].style.border == "transparent") //hexagon highlight
+			{
+				x[i].style.border = "5px solid green";
+				highlightBox = true;
+			}
+			else if (x[i].parentNode.parentNode.id.substring(0,9) == "draggable" && x[i].style.border != "transparent") //hexagon unhighlight
+			{	
+				x[i].style.border = "transparent";
+				highlightBox = false;
+			}
+			else
+			{	
+				x[i].parentNode.style.border = "transparent";
+				highlightBox = false;
+			}
+		}
+	//window.console.log(x[i].parentNode.parentNode.id.substring(0,9));
 }
 
 </script>
@@ -292,7 +340,7 @@ function duplicate() {
 		});
 	});
 	
-
+   window.console.log(clone);
 }
 
 var initNote = document.getElementById('postIt');
@@ -341,6 +389,7 @@ function makeText() {
 	window.console.log(newTex.style.left);
 	document.getElementById(newTex.id).style.left = "200px";
 	document.getElementById(newTex.id).style.top = "200px";
+	document.getElementById(newTex.id).style.border = "transparent";
 	
   $(function() {
 		$("#".concat(newTex.id)).draggable();
@@ -348,21 +397,18 @@ function makeText() {
 			window.console.log($(this).attr("id"));
 			var element = document.getElementById($(this).attr("id"));
 			if(testDelete == true) {
-				element.parentNode.removeChild(element);
+				window.console.log($(this).attr("id"));
+				if(element.parentNode.id == "textMake")
+				{
+					$(element.parentNode.id).hide();
+					window.console.log("hiding");
+				}
+				else
+					element.parentNode.removeChild(element);
 			}
 		});
 	} );
-	
-	$(function(){
-		$("#".concat(newNote.id)).resizable({
-			start: function(event, ui) { 
-			   $("#mask".concat(i)).css("display","block");
-			},
-			stop: function(event, ui) {
-			   $("#mask".concat(i)).css("display","none");
-			}
-		});
-	});
+	//window.console.log(newTex);
 }
 
 function useID(e) {   
