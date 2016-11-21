@@ -13,8 +13,28 @@
   width: 200px;
   height: 160px;
   background-color: #f1c40f;
-  overflow:hidden;
+  overflow:auto;
+  padding-right: 20px;
 }
+.noteForm::-webkit-scrollbar {
+      width: 10px;
+} /* this targets the default scrollbar (compulsory) */
+.noteForm::-webkit-scrollbar-track {
+      background-color: #f1c40f;
+} /* the new scrollbar will have a flat appearance with the set background color */
+ 
+.noteForm::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2); 
+} /* this will style the thumb, ignoring the track */
+ 
+.noteForm::-webkit-scrollbar-button {
+      background-color: #f1c40f;
+} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
+ 
+.noteForm::-webkit-scrollbar-corner {
+      background-color: black;
+} /* if both the vertical and the horizontal bars appear, then perhaps the right bottom corner also needs to be styled */
+
 
 .textAria {
   position: absolute;
