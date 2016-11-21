@@ -162,8 +162,9 @@
 
 <div id="draggable" class="ui-widget-content ui-draggable ui-draggable-handle" style="position: relative; left: 673px; top: 280px;">
 	<div style = "height: 60px; width: 60px; position: relative; ">
-		<img src= 'assets/hexBorder.png' alt="" style = "height: 60px; width: 60px; position: absolute;" onclick = 'myfunc(resizable)'/>
-		<img src= 'http://google.com/favicon.ico' alt="" style="height: 40px; width: 40px; position:absolute;" onclick = 'myfunc(resizable)'/>
+		<img src= 'assets/hexBorder.png' alt="" style = "height: 75px; width: 75px; position: absolute;" ondblclick = 'myfunc(resizable)'/>
+		<img src= 'http://google.com/favicon.ico' alt="" style="height: 42px; width: 42px; position:absolute; left:16px; top:5px" ondblclick = 'myfunc(resizable)'/>
+		<input type="text" style ="font-size: 10px; width:75px; position:absolute; top:50; background:transparent; border:transparent; color:white; text-align:center" maxlength = "6">
 	</div>
 	<div id="resizable" style="display:none;">
 		<iframe id="myiFrame" src="http://example.com" style="width:100%; height:100%	;"></iframe>
@@ -220,6 +221,7 @@ function edDrop(id){
 
 </script>
 <script>
+
 function myfunc(id){
 	window.console.log(id);
 	window.console.log(id.style.display);
@@ -240,6 +242,7 @@ document.getElementById('newListButton').onclick = makeNote;
 var i = 0;
 var original = document.getElementById('draggable');
 
+
 function duplicate() {
 	var cloneID = "draggable" + ++i;
 	var clone = document.createElement("div");
@@ -247,13 +250,22 @@ function duplicate() {
 	window.console.log(clone.outerHTML);
 //	clone.outerHTML = "<div id='" + cloneID + "' class= 'ui-widget-content ui-draggable ui-draggable-handle' style='position: relative; left: 673px; top: 280px; height: 60px; width: 60px; ; padding: 0.5em; background:transparent; border:transparent;'> </div>"
 	var newURL = document.getElementById('textbox').value;
+	if(newURL == '')
+		newURL = 'example.com';
 	if(newURL.substring(0,4) != 'http'){
 		newURL = 'http://' + newURL;
 	}
+	
+	var test = new Image();
+	test.src = "http://" + newURL.split('/')[2].concat("/favicon.ico");
+	if(!test.complete || test.naturalHeight == 0)
+		test.src = 'http://google.com/favicon.ico';
+	
 	var inner = "<div id='" + cloneID + "' class= 'ui-widget-content ui-draggable ui-draggable-handle' style='position: relative; left: 673px; top: 280px; height: 60px; width: 60px; ; padding: 0.5em; background:transparent; border:transparent;'> "
-				+"<div style = 'height: 60px; width: 60px; position: relative; '> "
-				+ "<img src= 'assets/hexBorder.png' alt='' style = 'height: 60px; width: 60px; position: absolute;' onclick = 'myfunc(resizable" + i + ")'/>"
-				+ "<img src= '" + "http://" + newURL.split('/')[2].concat("/favicon.ico") + "' alt='' style='height: 40px; width: 40px; position:absolute;' onclick = 'myfunc(resizable" + i + ")'/></div>"
+				+ "<div style = 'height: 60px; width: 60px; position: relative; '> "
+				+ "<img src= 'assets/hexBorder.png' alt='' style = 'height: 75px; width: 75px; position: absolute;' ondblclick = 'myfunc(resizable" + i + ")'/>"
+				+ "<img src= '" + test.src + "' alt='' style='height: 42px; width: 42px; position:absolute; left:16px; top:5px;' ondblclick = 'myfunc(resizable" + i + ")'/></div>"
+				+ "<input type='text' style ='font-size: 10px; width:75px; position:absolute; top:57; background:transparent; border:transparent; color:white; text-align:center' maxlength = '6'>"
 				+ " <div id='resizable" + i + "' style='width: 310px; height: 160px; padding: 0.5em; display:none;'> <iframe id='" 
 				+ "myiFrame" + i
 				+  "' src='http://example.com' style='width:100%; height:100%;'></iframe> <div id='mask" + i
