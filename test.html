@@ -298,6 +298,8 @@ function duplicate() {
 	
 	var test = new Image();
 	test.src = "http://" + newURL.split('/')[2].concat("/favicon.ico");
+//	window.console.log(test.src);
+
 	if(!test.complete || test.naturalHeight == 0)
 		test.src = 'http://google.com/favicon.ico';
 	
