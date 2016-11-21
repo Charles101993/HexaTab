@@ -164,8 +164,8 @@
 	<div style = "height: 60px; width: 60px; position: relative; ">
 		<img src= 'assets/hexBorder.png' alt="" style = "height: 75px; width: 75px; position: absolute;" ondblclick = 'myfunc(resizable)'/>
 		<img src= 'http://google.com/favicon.ico' alt="" style="height: 42px; width: 42px; position:absolute; left:16px; top:5px" ondblclick = 'myfunc(resizable)'/>
-		<input type="text" style ="font-size: 10px; width:75px; position:absolute; top:50; background:transparent; border:transparent; color:white; text-align:center" maxlength = "6">
 	</div>
+		<input type="text" style ="font-size: 10px; width:75px; position:absolute; top:50; background:transparent; border:transparent; color:white; text-align:center" maxlength = "6">
 	<div id="resizable" style="display:none;">
 		<iframe id="myiFrame" src="http://example.com" style="width:100%; height:100%	;"></iframe>
 		<div id="mask"></div>
@@ -176,7 +176,7 @@
 <div id="postIt" style="position:absolute; left: 300px; top: 300px;">
   <div class=topBar></div>
   <div class=noteForm>
-    <div contenteditable class=textAria>
+    <div contenteditable class=textAria >
       Hello, <b>Edit Me First</b> Then Drag & Drop me.
     </div>
   </div>
@@ -241,14 +241,21 @@ function edDrop(id){
 	}
 	else {
 	$(id).hide();
+	highlightBox = false;
 	var x = document.getElementsByTagName("INPUT");
 	for (var i=0; i < x.length; i++)
 		if(x[i].type == "text")
 		{
-			if (x[i].parentNode.parentNode.id.substring(0,9) == "draggable" && x[i].style.border != "transparent")
+			if (x[i].parentNode.id.substring(0,9) == "draggable" && x[i].style.border != "transparent") //hexagon unhighlight
+			{	
+				//window.console.log("hexagon unhighlight");
 				x[i].style.border = "transparent";
-			else
+			}
+			else if (x[i].parentNode.id.substring(0,8) == "textMake" && x[i].parentNode.style.border != "transparent") //label unhighlight
+			{	
+				//window.console.log("UNHIGHLIGHT textMake");
 				x[i].parentNode.style.border = "transparent";
+			}
 		}
 	}
 }
@@ -256,32 +263,47 @@ var highlightBox = false;
 function displayTextBoxes(){
 	var x = document.getElementsByTagName("INPUT");
 	
+	if(highlightBox == true) {
+		highlightBox = false;
+	}
+	else {
+		highlightBox = true;
+	}
+	//window.console.log(x);
 	for (var i=0; i < x.length; i++)
-		
+	
+	{
+
 		if(x[i].type == "text")
 		{
+			//window.console.log("PARENT:");
+			//window.console.log(x[i].parentNode.id);
+			//window.console.log("CHILD:");
+			//window.console.log(x[i].id);
 			if (x[i].parentNode.id.substring(0,8) == "textMake" && x[i].parentNode.style.border == "transparent") //label hightlight
 			{
+				//window.console.log("HIGHLIGHT textMake");
 				x[i].parentNode.style.border = "7px solid green";
-				highlightBox = true;
 			}
 			else if (x[i].parentNode.id.substring(0,9) == "draggable" && x[i].style.border == "transparent") //hexagon highlight
 			{
+				
 				x[i].style.border = "5px solid green";
-				highlightBox = true;
 			}
 			else if (x[i].parentNode.id.substring(0,9) == "draggable" && x[i].style.border != "transparent") //hexagon unhighlight
 			{	
+				//window.console.log("hexagon unhighlight");
 				x[i].style.border = "transparent";
-				highlightBox = false;
 			}
-			else
+			else if (x[i].parentNode.id.substring(0,8) == "textMake" && x[i].parentNode.style.border != "transparent") //label unhighlight
 			{	
+				//window.console.log("UNHIGHLIGHT textMake");
 				x[i].parentNode.style.border = "transparent";
-				highlightBox = false;
 			}
 		}
-	//window.console.log(x[i].parentNode.parentNode.id.substring(0,9));
+//		window.console.log(highlightBox);
+		}
+	//window.console.log(highlightBox);
 }
 
 </script>
@@ -339,6 +361,10 @@ function duplicate() {
 				+ "'></div> </div>"
 				+ "</div>";
 	clone.outerHTML = inner;
+	if(highlightBox == true){
+//		window.console.log(newTexID);
+		document.getElementById(cloneID).getElementsByTagName("INPUT")[0].style.border = "7px solid green";
+	}
 	
 //	window.console.log(inner);
 //	window.console.log(document.getElementById("myiFrame" + i));
@@ -416,9 +442,8 @@ function makeText() {
 //  <input id="textMakeBox" type="text" name="tex" style ="font-size: 15px">
 //</div>
 	
-
-	var inner = "<div id='" + newTexID + "' style='position:absolute; left: 380px; top: 180px; border-style: solid; border-width: 5px;' class='ui-draggable ui-draggable-handle'>" 
-				+"<input id=textMakeBox type=text name=tex>"; 
+	var inner = "<div id='" + newTexID + "' style='position:absolute; left: 380px; top: 180px; border: transparent;' class='ui-draggable ui-draggable-handle'>" 
+				+"<input id=textMakeBox type=text name=tex style ='font-size: 15px; border: transparent;'>";
 				+"</div>";
 	newTex.outerHTML = inner;
 	//document.getElementById(newTex.id).innerHTML = inner;
@@ -426,13 +451,18 @@ function makeText() {
 //	window.console.log(newTex.style.left);
 	document.getElementById(newTexID).style.left = "200px";
 	document.getElementById(newTexID).style.top = "200px";
-
+	if(highlightBox == true){
+//		window.console.log(newTexID);
+		document.getElementById(newTexID).style.border = "7px solid green";
+	}
+	
 	
   $(function() {
 		$("#".concat(newTexID)).draggable();
 		$("#".concat(newTexID)).on('click', function(){
-			window.console.log($(this).attr("id"));
+			//window.console.log($(this).attr("id"));
 			var element = document.getElementById($(this).attr("id"));
+			
 			if(testDelete == true) {
 					element.parentNode.removeChild(element);
 			}
@@ -448,3 +478,4 @@ function useID(e) {
 }
 </script>
 </html>
+
