@@ -14,6 +14,7 @@
 	body
 	{
 		background-color: #000000;
+		background-image: /assets/web.jpg
 	}
 	#draggable { height: 60px; width: 60px; ; padding: 0.5em; background:transparent; border:transparent;}
 	
@@ -135,7 +136,7 @@
 </div>
 
 <div id = "saveButton" style="position: absolute; left: 150px; top: 10px;"> 
-    <img src='assets/save.png' width="50" height="50"/>
+    <img src='assets/save.png' onclick= "save()"; width="50" height="50"/>
 </div>
 
 <div id = "editModeButton" style="position: absolute; left: 275px; top: 10px;"> 
