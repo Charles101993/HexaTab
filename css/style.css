@@ -2,7 +2,7 @@
 
 .topBar {
   position: absolute;
-  width: 200px;
+  width: 220px;
   height: 40px;
   background-color: #f39c12;
 }
@@ -16,6 +16,7 @@
   overflow:auto;
   padding-right: 20px;
 }
+
 .noteForm::-webkit-scrollbar {
       width: 10px;
 } /* this targets the default scrollbar (compulsory) */
@@ -26,15 +27,14 @@
 .noteForm::-webkit-scrollbar-thumb {
       background-color: rgba(0, 0, 0, 0.2); 
 } /* this will style the thumb, ignoring the track */
- 
+ /*
 .noteForm::-webkit-scrollbar-button {
       background-color: #f1c40f;
-} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
+}  optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
  
 .noteForm::-webkit-scrollbar-corner {
       background-color: black;
 } /* if both the vertical and the horizontal bars appear, then perhaps the right bottom corner also needs to be styled */
-
 
 .textAria {
   position: absolute;
@@ -49,4 +49,45 @@
 
 .textAria:focus {
   outline: 0;
+}
+ol.hexol {
+position: relative;
+left: 3.63em;
+}
+
+.hex {
+position: relative;
+/*margin: 1em auto;*/
+width: calc(.75 * 4em); 
+height: calc(.75 * 6.8em);
+background: #ccc;
+transform: rotate(-60deg);
+display: inline-block;
+/*margin-right: 3em;*/
+/*transition: all 150ms ease-in-out;*/
+}
+.hex:before, .hex:after {
+position: absolute;
+width: inherit; height: inherit;
+border-radius: inherit;
+background: inherit;
+content: '';
+}
+.hex:before {
+transform: rotate(60deg);
+}
+.hex:after {
+transform: rotate(-60deg);
+}
+.hex:hover {
+background: #F58787;
+cursor: pointer;
+}
+
+.innerHex {
+float: left;
+/*position: fixed;*/
+z-index: 1;
+/*margin-top: 70px;
+margin-left: -125px;*/
 }
