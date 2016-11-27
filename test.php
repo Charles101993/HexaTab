@@ -138,11 +138,14 @@ Sign Out
 <div id = "newTabText"  style="position: absolute; left: 500px; top: 90px;" onclick ="duplicate();useID();"> 
 New Flake	
 </div>
-<div id = "saveButtonText" style="position: absolute; left: 720px; top: 90px;" onclick: "save();"> 
+<div id = "saveButtonText" style="position: absolute; left: 720px; top: 90px;" onclick= "save();"> 
 Save
 </div>
-<div id = "deleteButtonText" style="position: absolute; left: 830px; top: 90px;" onclick: "toggleDelete();"> 
+<div id = "deleteButtonText" style="position: absolute; left: 830px; top: 90px;" onclick= "toggleDelete();"> 
 Delete
+</div>
+<div id = "signinButtonText" style="position: absolute; left: 1000px; top: 90px;" onClick="parent.location='authenticate.php'">
+Sign-In
 </div>
 </h1>
 
@@ -215,12 +218,15 @@ Delete
 <script>
 var testDelete = false;
 function toggleDelete() {
+	var del_text = document.getElementById("deleteButtonText");
 	if(testDelete == false) {
+		del_text.style.color = "B1CCDF";
 		testDelete = true;
 		$(deleteImg1).hide();
 		$(deleteImg2).show();
 	}
 	else {
+		del_text.style.color = "786E69";
 		testDelete = false;
 		$(deleteImg2).hide();
 		$(deleteImg1).show();
