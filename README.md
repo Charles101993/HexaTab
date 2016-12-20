@@ -13,7 +13,12 @@ Choose GitHub Enterprise
 Put your username and password(NetID and Password)  
 Put https://github.tamu.edu/ for enterprise  
 Continue cloning and select where you want to put the clone  
-Now you can directly edit the files and use the app to commit them rather than using command prompt things  
+Now you can directly edit the files and use the app to commit them rather than using command prompt things 
+
+To use (Requires IdeaMache Extension for Google Chrome):
+Login at hexaflake.com
+Then go to:
+hexaflake.com/HexaTab/test.php
 
 
 
